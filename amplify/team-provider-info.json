@@ -1,0 +1,23 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-simswarmulator-dev-93702-authRole",
+            "UnauthRoleArn": "arn:aws:iam::748706229283:role/amplify-simswarmulator-dev-93702-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::748706229283:role/amplify-simswarmulator-dev-93702-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-simswarmulator-dev-93702-deployment",
+            "UnauthRoleName": "amplify-simswarmulator-dev-93702-unauthRole",
+            "StackName": "amplify-simswarmulator-dev-93702",
+            "StackId": "arn:aws:cloudformation:us-east-1:748706229283:stack/amplify-simswarmulator-dev-93702/d9ab6290-0bc6-11eb-a4a2-0a4f97d4255b",
+            "AmplifyAppId": "d3q2uthsa4u7z"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d3q2uthsa4u7z",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}
