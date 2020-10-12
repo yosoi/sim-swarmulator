@@ -1,47 +1,65 @@
-import { Grid, Menu } from "semantic-ui-react";
-import { Route, Switch, useHistory, useLocation } from "react-router-dom";
+import { Grid, Icon, Menu } from "semantic-ui-react";
+import React, { useCallback, useState } from "react";
 
-import Larvae from "bits/Larvae";
-import Meat from "bits/Meat";
-import React from "react";
+import composeResource from "bits/composeResource";
+import useGameLoop from "bits/useGameLoop";
 
 export default function Game() {
-  const createTabPath = (tabName) => `/tab/${tabName}`;
+  // TODO: abstract these pairs to custom hook
+  const [souls, setSouls] = useState(10);
+  const [soulsRate, setSoulsRate] = useState(1);
 
-  const history = useHistory();
-  const location = useLocation();
+  const [devotion, setDevotion] = useState(35);
+  const [devotionRate, setDevotionRate] = useState(0);
 
-  const tabs = [
-    { component: () => <Meat></Meat>, name: "meat" },
-    { component: () => <Larvae></Larvae>, name: "larvae" },
-  ];
+  const [hysteria, setHysteria] = useState(0);
+  const [hysteriaRate, setHysteriaRate] = useState(0);
+
+  const update = useCallback(() => {
+    setSouls((souls) => souls + soulsRate);
+    setDevotion((devotion) => devotion + devotionRate);
+    setHysteria((hysteria) => hysteria + hysteriaRate);
+  }, []);
+
+  useGameLoop(1, update);
+
+  // TODO: convert this to a dictionary with names as keys
+  const resources = [
+    ["Devotion", devotion, false, true],
+    ["Souls", souls, false, true],
+    ["Hysteria", hysteria, false, souls >= 15],
+  ].map((resource) => composeResource(...resource));
+
+  const [activeResourceName, setActiveResourceName] = useState(
+    resources[0].name
+  );
 
   return (
     <Grid>
       <Grid.Row>
         <Grid.Column>
           <Menu tabular>
-            {tabs.map((tab) => (
-              <Menu.Item
-                active={location.pathname === createTabPath(tab.name)}
-                key={tab.name}
-                onClick={() => history.push(createTabPath(tab.name))}
-                {...tab}
-              ></Menu.Item>
-            ))}
+            {resources
+              .filter((resource) => resource.isUnlocked())
+              .map((resource) => (
+                <Menu.Item
+                  active={activeResourceName === resource.name}
+                  key={resource.name}
+                  onClick={() => setActiveResourceName(resource.name)}
+                >
+                  {resource.canUpgrade() ? (
+                    <Icon name="arrow alternate circle up"></Icon>
+                  ) : (
+                    <div></div>
+                  )}
+                  {`${resource.get()} ${resource.name}`}
+                </Menu.Item>
+              ))}
           </Menu>
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
-        <Grid.Column>
-          <Switch>
-            {tabs.map((tab) => (
-              <Route exact key={tab.name} path={createTabPath(tab.name)}>
-                {tab.component()}
-              </Route>
-            ))}
-          </Switch>
-        </Grid.Column>
+        <Grid.Column>{activeResourceName}</Grid.Column>
       </Grid.Row>
     </Grid>
   );

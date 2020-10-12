@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import React from "react";
 
 export default function MainMenu() {
+  // TODO: get actual version somehow
   const version = "0.1.0";
   return (
     <Grid verticalAlign="middle">
       <Grid.Column computer={4} floated="left" mobile={8} tablet={4}>
         <Header as={Link} to="/">
-          sim-swarmulator
+          Cult Simulator
         </Header>
       </Grid.Column>
       <Grid.Column

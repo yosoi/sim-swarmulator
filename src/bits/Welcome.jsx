@@ -7,7 +7,7 @@ export default function Welcome() {
 
   return visible ? (
     <Message
-      content="Welcome to sim-swarmulator. Turn back now or prepare to waste a lot of time here."
+      content="Welcome to Cult Simulator. Turn back now or prepare to waste a lot of time here."
       header="Uhhhhh..."
       info
       onDismiss={() => setVisible(false)}
